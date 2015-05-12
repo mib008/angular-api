@@ -1,8 +1,8 @@
-<a href='https://github.com/angular/angular.js/edit/v1.3.x/src/ng/compile.js?message=docs($compile)%3A%20describe%20your%20change...#L21' class='improve-docs btn btn-primary'><i class="glyphicon glyphicon-edit">&nbsp;</i>Improve this Doc</a>
+<a href='https://github.com/angular/angular.js/edit/v1.3.x/src/ng/compile.js?message=docs($compile)%3A%20describe%20your%20change...#L32' class='improve-docs btn btn-primary'><i class="glyphicon glyphicon-edit">&nbsp;</i>Improve this Doc</a>
 
 
 
-<a href='https://github.com/angular/angular.js/tree/v1.3.2/src/ng/compile.js#L21' class='view-source pull-right btn btn-primary'>
+<a href='https://github.com/angular/angular.js/tree/v1.3.15/src/ng/compile.js#L32' class='view-source pull-right btn btn-primary'>
   <i class="glyphicon glyphicon-zoom-in">&nbsp;</i>View Source
 </a>
 
@@ -99,7 +99,7 @@ myModule.directive(&#39;directiveName&#39;, function factory(injectables) {
 <h4 id="-multielement-"><code>multiElement</code></h4>
 <p>When this property is set to true, the HTML compiler will collect DOM nodes between
 nodes with the attributes <code>directive-name-start</code> and <code>directive-name-end</code>, and group them
-together as the directive elements. It is recomended that this feature be used on directives
+together as the directive elements. It is recommended that this feature be used on directives
 which are not strictly behavioural (such as <a href="api/ng/directive/ngClick"><code>ngClick</code></a>), and which
 do not manipulate or replace child nodes (such as <a href="api/ng/directive/ngInclude"><code>ngInclude</code></a>).</p>
 <h4 id="-priority-"><code>priority</code></h4>
@@ -159,7 +159,7 @@ by calling the <code>localFn</code> as <code>localFn({amount: 22})</code>.</p>
 </li>
 </ul>
 <h4 id="-bindtocontroller-"><code>bindToController</code></h4>
-<p>When an isolate scope is used for a component (see above), and <code>controllerAs</code> is used, <code>bindToController</code> will
+<p>When an isolate scope is used for a component (see above), and <code>controllerAs</code> is used, <code>bindToController: true</code> will
 allow a component to have its properties bound to the controller, rather than to scope. When the controller
 is instantiated, the initial values of the isolate scope bindings are already available.</p>
 <h4 id="-controller-"><code>controller</code></h4>
@@ -192,7 +192,8 @@ usual containers (e.g. like <code>&lt;svg&gt;</code>).</li>
 <p>Require another directive and inject its controller as the fourth argument to the linking function. The
 <code>require</code> takes a string name (or array of strings) of the directive(s) to pass in. If an array is used, the
 injected argument will be an array in corresponding order. If no such directive can be
-found, or if the directive does not have a controller, then an error is raised. The name can be prefixed with:</p>
+found, or if the directive does not have a controller, then an error is raised (unless no link function
+is specified, in which case error checking is skipped). The name can be prefixed with:</p>
 <ul>
 <li>(no prefix) - Locate the required controller on the current element. Throw an error if not found.</li>
 <li><code>?</code> - Attempt to locate the required controller or pass <code>null</code> to the <code>link</code> fn if not found.</li>
@@ -430,10 +431,10 @@ was taken.</p>
 <p>For example consider a directive that uses transclusion and isolated scope. The DOM hierarchy might look
 like this:</p>
 <pre><code class="lang-html">&lt;div ng-app&gt;
-&lt;div isolate&gt;
-  &lt;div transclusion&gt;
+  &lt;div isolate&gt;
+    &lt;div transclusion&gt;
+    &lt;/div&gt;
   &lt;/div&gt;
-&lt;/div&gt;
 &lt;/div&gt;
 </code></pre>
 <p>The <code>$parent</code> scope hierarchy will look like this:</p>
@@ -443,7 +444,7 @@ like this:</p>
 </code></pre>
 <p>but the scopes will inherit prototypically from different scopes to their <code>$parent</code>.</p>
 <pre><code>- $rootScope
-- transclusion
+  - transclusion
 - isolate
 </code></pre>
 <h3 id="attributes">Attributes</h3>
@@ -468,16 +469,16 @@ hasn&#39;t been evaluated yet and so the value is at this time set to <code>unde
 </li>
 </ul>
 <pre><code class="lang-js">function linkingFn(scope, elm, attrs, ctrl) {
-// get the attribute value
-console.log(attrs.ngModel);
+  // get the attribute value
+  console.log(attrs.ngModel);
 
-// change the attribute
-attrs.$set(&#39;ngModel&#39;, &#39;new value&#39;);
+  // change the attribute
+  attrs.$set(&#39;ngModel&#39;, &#39;new value&#39;);
 
-// observe changes to interpolated attribute
-attrs.$observe(&#39;ngModel&#39;, function(value) {
-  console.log(&#39;ngModel has changed value to &#39; + value);
-});
+  // observe changes to interpolated attribute
+  attrs.$observe(&#39;ngModel&#39;, function(value) {
+    console.log(&#39;ngModel has changed value to &#39; + value);
+  });
 }
 </code></pre>
 <h2 id="example">Example</h2>
@@ -489,12 +490,12 @@ to illustrate how <code>$compile</code> works.
 <p> 
 
 <div>
-  <a ng-click="openPlunkr('examples/example-example49')" class="btn pull-right">
+  <a ng-click="openPlunkr('examples/example-example51', $event)" class="btn pull-right">
     <i class="glyphicon glyphicon-edit">&nbsp;</i>
     Edit in Plunker</a>
 
   <div class="runnable-example"
-      path="examples/example-example49"
+      path="examples/example-example51"
       module="compileExample">
 
   
@@ -513,7 +514,7 @@ to illustrate how <code>$compile</code> works.
     </div>
   
 
-    <iframe class="runnable-example-frame" src="examples/example-example49/index.html" name="example-example49"></iframe>
+    <iframe class="runnable-example-frame" src="examples/example-example51/index.html" name="example-example51"></iframe>
   </div>
 </div>
 

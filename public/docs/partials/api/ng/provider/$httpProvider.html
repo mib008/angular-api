@@ -1,8 +1,8 @@
-<a href='https://github.com/angular/angular.js/edit/v1.3.x/src/ng/http.js?message=docs($httpProvider)%3A%20describe%20your%20change...#L101' class='improve-docs btn btn-primary'><i class="glyphicon glyphicon-edit">&nbsp;</i>Improve this Doc</a>
+<a href='https://github.com/angular/angular.js/edit/v1.3.x/src/ng/http.js?message=docs($httpProvider)%3A%20describe%20your%20change...#L117' class='improve-docs btn btn-primary'><i class="glyphicon glyphicon-edit">&nbsp;</i>Improve this Doc</a>
 
 
 
-<a href='https://github.com/angular/angular.js/tree/v1.3.2/src/ng/http.js#L101' class='view-source pull-right btn btn-primary'>
+<a href='https://github.com/angular/angular.js/tree/v1.3.15/src/ng/http.js#L117' class='view-source pull-right btn btn-primary'>
   <i class="glyphicon glyphicon-zoom-in">&nbsp;</i>View Source
 </a>
 
@@ -115,6 +115,11 @@ concurrently (common during application bootstrap).</p>
     <td></td>
     <td><p>Object containing default values for all <a href="api/ng/service/$http">$http</a> requests.</p>
 <ul>
+<li><p><strong><code>defaults.cache</code></strong> - {Object} - an object built with <a href="api/ng/service/$cacheFactory"><code>$cacheFactory</code></a>
+that will provide the cache for all requests who set their <code>cache</code> property to <code>true</code>.
+If you set the <code>default.cache = false</code> then only requests that specify their own custom
+cache object will be cached. See <a href="api/ng/service/$http#caching">$http Caching</a> for more information.</p>
+</li>
 <li><p><strong><code>defaults.xsrfCookieName</code></strong> - {string} - Name of cookie containing the XSRF token.
 Defaults value is <code>&#39;XSRF-TOKEN&#39;</code>.</p>
 </li>

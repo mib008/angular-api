@@ -3,11 +3,12 @@
 
 <p>Controls (<code>input</code>, <code>select</code>, <code>textarea</code>) are ways for a user to enter data.
 A Form is a collection of controls for the purpose of grouping related controls together.</p>
-<p>Form and controls provide validation services, so that the user can be notified of invalid input.
-This provides a better user experience, because the user gets instant feedback on how to
-correct the error. Keep in mind that while client-side validation plays an important role
-in providing good user experience, it can easily be circumvented and thus can not be trusted.
-Server-side validation is still necessary for a secure application.</p>
+<p>Form and controls provide validation services, so that the user can be notified of invalid input
+before submitting a form. This provides a better user experience than server-side validation alone
+because the user gets instant feedback on how to correct the error. Keep in mind that while
+client-side validation plays an important role in providing good user experience, it can easily
+be circumvented and thus can not be trusted. Server-side validation is still necessary for a
+secure application.</p>
 <h1 id="simple-form">Simple form</h1>
 <p>The key directive in understanding two-way data-binding is <a href="api/ng/directive/ngModel">ngModel</a>.
 The <code>ngModel</code> directive provides the two-way data-binding by synchronizing the model to the view,
@@ -16,12 +17,12 @@ for other directives to augment its behavior.</p>
 <p>
 
 <div>
-  <a ng-click="openPlunkr('examples/example-example29')" class="btn pull-right">
+  <a ng-click="openPlunkr('examples/example-example31', $event)" class="btn pull-right">
     <i class="glyphicon glyphicon-edit">&nbsp;</i>
     Edit in Plunker</a>
 
   <div class="runnable-example"
-      path="examples/example-example29"
+      path="examples/example-example31"
       module="formExample">
 
   
@@ -29,11 +30,11 @@ for other directives to augment its behavior.</p>
       name="index.html"
       language="html"
       type="html">
-      <pre><code>&lt;div ng-controller=&quot;ExampleController&quot;&gt;&#10;  &lt;form novalidate class=&quot;simple-form&quot;&gt;&#10;    Name: &lt;input type=&quot;text&quot; ng-model=&quot;user.name&quot; /&gt;&lt;br /&gt;&#10;    E-mail: &lt;input type=&quot;email&quot; ng-model=&quot;user.email&quot; /&gt;&lt;br /&gt;&#10;    Gender: &lt;input type=&quot;radio&quot; ng-model=&quot;user.gender&quot; value=&quot;male&quot; /&gt;male&#10;    &lt;input type=&quot;radio&quot; ng-model=&quot;user.gender&quot; value=&quot;female&quot; /&gt;female&lt;br /&gt;&#10;    &lt;button ng-click=&quot;reset()&quot;&gt;RESET&lt;/button&gt;&#10;    &lt;button ng-click=&quot;update(user)&quot;&gt;SAVE&lt;/button&gt;&#10;  &lt;/form&gt;&#10;  &lt;pre&gt;form = {{user | json}}&lt;/pre&gt;&#10;  &lt;pre&gt;master = {{master | json}}&lt;/pre&gt;&#10;&lt;/div&gt;&#10;&#10;&lt;script&gt;&#10;  angular.module(&#39;formExample&#39;, [])&#10;    .controller(&#39;ExampleController&#39;, [&#39;$scope&#39;, function($scope) {&#10;      $scope.master = {};&#10;&#10;      $scope.update = function(user) {&#10;        $scope.master = angular.copy(user);&#10;      };&#10;&#10;      $scope.reset = function() {&#10;        $scope.user = angular.copy($scope.master);&#10;      };&#10;&#10;      $scope.reset();&#10;    }]);&#10;&lt;/script&gt;</code></pre>
+      <pre><code>&lt;div ng-controller=&quot;ExampleController&quot;&gt;&#10;  &lt;form novalidate class=&quot;simple-form&quot;&gt;&#10;    Name: &lt;input type=&quot;text&quot; ng-model=&quot;user.name&quot; /&gt;&lt;br /&gt;&#10;    E-mail: &lt;input type=&quot;email&quot; ng-model=&quot;user.email&quot; /&gt;&lt;br /&gt;&#10;    Gender: &lt;input type=&quot;radio&quot; ng-model=&quot;user.gender&quot; value=&quot;male&quot; /&gt;male&#10;    &lt;input type=&quot;radio&quot; ng-model=&quot;user.gender&quot; value=&quot;female&quot; /&gt;female&lt;br /&gt;&#10;    &lt;input type=&quot;button&quot; ng-click=&quot;reset()&quot; value=&quot;Reset&quot; /&gt;&#10;    &lt;input type=&quot;submit&quot; ng-click=&quot;update(user)&quot; value=&quot;Save&quot; /&gt;&#10;  &lt;/form&gt;&#10;  &lt;pre&gt;form = {{user | json}}&lt;/pre&gt;&#10;  &lt;pre&gt;master = {{master | json}}&lt;/pre&gt;&#10;&lt;/div&gt;&#10;&#10;&lt;script&gt;&#10;  angular.module(&#39;formExample&#39;, [])&#10;    .controller(&#39;ExampleController&#39;, [&#39;$scope&#39;, function($scope) {&#10;      $scope.master = {};&#10;&#10;      $scope.update = function(user) {&#10;        $scope.master = angular.copy(user);&#10;      };&#10;&#10;      $scope.reset = function() {&#10;        $scope.user = angular.copy($scope.master);&#10;      };&#10;&#10;      $scope.reset();&#10;    }]);&#10;&lt;/script&gt;</code></pre>
     </div>
   
 
-    <iframe class="runnable-example-frame" src="examples/example-example29/index.html" name="example-example29"></iframe>
+    <iframe class="runnable-example-frame" src="examples/example-example31/index.html" name="example-example31"></iframe>
   </div>
 </div>
 
@@ -57,17 +58,18 @@ For example: inputs of type <code>email</code> must have a value in the form of 
 </ul>
 <p>The following example uses the CSS to display validity of each form control.
 In the example both <code>user.name</code> and <code>user.email</code> are required, but are rendered
-with red background only when they are dirty. This ensures that the user is not distracted
-with an error until after interacting with the control, and failing to satisfy its validity.</p>
+with red background only after the input is blurred (loses focus).
+This ensures that the user is not distracted with an error until after interacting with the control,
+and failing to satisfy its validity.</p>
 <p>
 
 <div>
-  <a ng-click="openPlunkr('examples/example-example30')" class="btn pull-right">
+  <a ng-click="openPlunkr('examples/example-example32', $event)" class="btn pull-right">
     <i class="glyphicon glyphicon-edit">&nbsp;</i>
     Edit in Plunker</a>
 
   <div class="runnable-example"
-      path="examples/example-example30"
+      path="examples/example-example32"
       module="formExample">
 
   
@@ -75,11 +77,11 @@ with an error until after interacting with the control, and failing to satisfy i
       name="index.html"
       language="html"
       type="html">
-      <pre><code>&lt;div ng-controller=&quot;ExampleController&quot;&gt;&#10;  &lt;form novalidate class=&quot;css-form&quot;&gt;&#10;    Name:&#10;      &lt;input type=&quot;text&quot; ng-model=&quot;user.name&quot; required /&gt;&lt;br /&gt;&#10;    E-mail: &lt;input type=&quot;email&quot; ng-model=&quot;user.email&quot; required /&gt;&lt;br /&gt;&#10;    Gender: &lt;input type=&quot;radio&quot; ng-model=&quot;user.gender&quot; value=&quot;male&quot; /&gt;male&#10;    &lt;input type=&quot;radio&quot; ng-model=&quot;user.gender&quot; value=&quot;female&quot; /&gt;female&lt;br /&gt;&#10;    &lt;button ng-click=&quot;reset()&quot;&gt;RESET&lt;/button&gt;&#10;    &lt;button ng-click=&quot;update(user)&quot;&gt;SAVE&lt;/button&gt;&#10;  &lt;/form&gt;&#10;&lt;/div&gt;&#10;&#10;&lt;style type=&quot;text/css&quot;&gt;&#10;  .css-form input.ng-invalid.ng-dirty {&#10;    background-color: #FA787E;&#10;  }&#10;&#10;  .css-form input.ng-valid.ng-dirty {&#10;    background-color: #78FA89;&#10;  }&#10;&lt;/style&gt;&#10;&#10;&lt;script&gt;&#10;  angular.module(&#39;formExample&#39;, [])&#10;    .controller(&#39;ExampleController&#39;, [&#39;$scope&#39;, function($scope) {&#10;      $scope.master = {};&#10;&#10;      $scope.update = function(user) {&#10;        $scope.master = angular.copy(user);&#10;      };&#10;&#10;      $scope.reset = function() {&#10;        $scope.user = angular.copy($scope.master);&#10;      };&#10;&#10;      $scope.reset();&#10;    }]);&#10;&lt;/script&gt;</code></pre>
+      <pre><code>&lt;div ng-controller=&quot;ExampleController&quot;&gt;&#10;  &lt;form novalidate class=&quot;css-form&quot;&gt;&#10;    Name: &lt;input type=&quot;text&quot; ng-model=&quot;user.name&quot; required /&gt;&lt;br /&gt;&#10;    E-mail: &lt;input type=&quot;email&quot; ng-model=&quot;user.email&quot; required /&gt;&lt;br /&gt;&#10;    Gender: &lt;input type=&quot;radio&quot; ng-model=&quot;user.gender&quot; value=&quot;male&quot; /&gt;male&#10;    &lt;input type=&quot;radio&quot; ng-model=&quot;user.gender&quot; value=&quot;female&quot; /&gt;female&lt;br /&gt;&#10;    &lt;input type=&quot;button&quot; ng-click=&quot;reset()&quot; value=&quot;Reset&quot; /&gt;&#10;    &lt;input type=&quot;submit&quot; ng-click=&quot;update(user)&quot; value=&quot;Save&quot; /&gt;&#10;  &lt;/form&gt;&#10;&lt;/div&gt;&#10;&#10;&lt;style type=&quot;text/css&quot;&gt;&#10;  .css-form input.ng-invalid.ng-touched {&#10;    background-color: #FA787E;&#10;  }&#10;&#10;  .css-form input.ng-valid.ng-touched {&#10;    background-color: #78FA89;&#10;  }&#10;&lt;/style&gt;&#10;&#10;&lt;script&gt;&#10;  angular.module(&#39;formExample&#39;, [])&#10;    .controller(&#39;ExampleController&#39;, [&#39;$scope&#39;, function($scope) {&#10;      $scope.master = {};&#10;&#10;      $scope.update = function(user) {&#10;        $scope.master = angular.copy(user);&#10;      };&#10;&#10;      $scope.reset = function() {&#10;        $scope.user = angular.copy($scope.master);&#10;      };&#10;&#10;      $scope.reset();&#10;    }]);&#10;&lt;/script&gt;</code></pre>
     </div>
   
 
-    <iframe class="runnable-example-frame" src="examples/example-example30/index.html" name="example-example30"></iframe>
+    <iframe class="runnable-example-frame" src="examples/example-example32/index.html" name="example-example32"></iframe>
   </div>
 </div>
 
@@ -89,26 +91,26 @@ with an error until after interacting with the control, and failing to satisfy i
 <p>A form is an instance of <a href="api/ng/type/form.FormController">FormController</a>.
 The form instance can optionally be published into the scope using the <code>name</code> attribute.</p>
 <p>Similarly, an input control that has the <a href="api/ng/directive/ngModel">ngModel</a> directive holds an
-instance of <a href="api/ng/type/ngModel.NgModelController">NgModelController</a>.Such a control instance
+instance of <a href="api/ng/type/ngModel.NgModelController">NgModelController</a>. Such a control instance
 can be published as a property of the form instance using the <code>name</code> attribute on the input control.
 The name attribute specifies the name of the property on the form instance.</p>
 <p>This implies that the internal state of both the form and the control is available for binding in
 the view using the standard binding primitives.</p>
 <p>This allows us to extend the above example with these features:</p>
 <ul>
-<li>RESET button is enabled only if form has some changes</li>
-<li>SAVE button is enabled only if form has some changes and is valid</li>
-<li>custom error messages for <code>user.email</code> and <code>user.agree</code></li>
+<li>Custom error message displayed after the user interacted with a control (i.e. when <code>$touched</code> is set)</li>
+<li>Custom error message displayed upon submitting the form (<code>$submitted</code> is set), even if the user
+didn&#39;t interact with a control</li>
 </ul>
 <p>
 
 <div>
-  <a ng-click="openPlunkr('examples/example-example31')" class="btn pull-right">
+  <a ng-click="openPlunkr('examples/example-example33', $event)" class="btn pull-right">
     <i class="glyphicon glyphicon-edit">&nbsp;</i>
     Edit in Plunker</a>
 
   <div class="runnable-example"
-      path="examples/example-example31"
+      path="examples/example-example33"
       module="formExample">
 
   
@@ -116,18 +118,18 @@ the view using the standard binding primitives.</p>
       name="index.html"
       language="html"
       type="html">
-      <pre><code>&lt;div ng-controller=&quot;ExampleController&quot;&gt;&#10;  &lt;form name=&quot;form&quot; class=&quot;css-form&quot; novalidate&gt;&#10;    Name:&#10;      &lt;input type=&quot;text&quot; ng-model=&quot;user.name&quot; name=&quot;uName&quot; required /&gt;&lt;br /&gt;&#10;    E-mail:&#10;      &lt;input type=&quot;email&quot; ng-model=&quot;user.email&quot; name=&quot;uEmail&quot; required/&gt;&lt;br /&gt;&#10;    &lt;div ng-show=&quot;form.uEmail.$dirty &amp;&amp; form.uEmail.$invalid&quot;&gt;Invalid:&#10;      &lt;span ng-show=&quot;form.uEmail.$error.required&quot;&gt;Tell us your email.&lt;/span&gt;&#10;      &lt;span ng-show=&quot;form.uEmail.$error.email&quot;&gt;This is not a valid email.&lt;/span&gt;&#10;    &lt;/div&gt;&#10;&#10;    Gender: &lt;input type=&quot;radio&quot; ng-model=&quot;user.gender&quot; value=&quot;male&quot; /&gt;male&#10;    &lt;input type=&quot;radio&quot; ng-model=&quot;user.gender&quot; value=&quot;female&quot; /&gt;female&lt;br /&gt;&#10;&#10;    &lt;input type=&quot;checkbox&quot; ng-model=&quot;user.agree&quot; name=&quot;userAgree&quot; required /&gt;&#10;    I agree: &lt;input ng-show=&quot;user.agree&quot; type=&quot;text&quot; ng-model=&quot;user.agreeSign&quot;&#10;              required /&gt;&lt;br /&gt;&#10;    &lt;div ng-show=&quot;!user.agree || !user.agreeSign&quot;&gt;Please agree and sign.&lt;/div&gt;&#10;&#10;    &lt;button ng-click=&quot;reset()&quot; ng-disabled=&quot;isUnchanged(user)&quot;&gt;RESET&lt;/button&gt;&#10;    &lt;button ng-click=&quot;update(user)&quot;&#10;            ng-disabled=&quot;form.$invalid || isUnchanged(user)&quot;&gt;SAVE&lt;/button&gt;&#10;  &lt;/form&gt;&#10;&lt;/div&gt;</code></pre>
+      <pre><code>&lt;div ng-controller=&quot;ExampleController&quot;&gt;&#10;  &lt;form name=&quot;form&quot; class=&quot;css-form&quot; novalidate&gt;&#10;    Name:&#10;    &lt;input type=&quot;text&quot; ng-model=&quot;user.name&quot; name=&quot;uName&quot; required=&quot;&quot; /&gt;&#10;    &lt;br /&gt;&#10;    &lt;div ng-show=&quot;form.$submitted || form.uName.$touched&quot;&gt;&#10;      &lt;div ng-show=&quot;form.uName.$error.required&quot;&gt;Tell us your name.&lt;/div&gt;&#10;    &lt;/div&gt;&#10;&#10;    E-mail:&#10;    &lt;input type=&quot;email&quot; ng-model=&quot;user.email&quot; name=&quot;uEmail&quot; required=&quot;&quot; /&gt;&#10;    &lt;br /&gt;&#10;    &lt;div ng-show=&quot;form.$submitted || form.uEmail.$touched&quot;&gt;&#10;      &lt;span ng-show=&quot;form.uEmail.$error.required&quot;&gt;Tell us your email.&lt;/span&gt;&#10;      &lt;span ng-show=&quot;form.uEmail.$error.email&quot;&gt;This is not a valid email.&lt;/span&gt;&#10;    &lt;/div&gt;&#10;&#10;    Gender:&#10;    &lt;input type=&quot;radio&quot; ng-model=&quot;user.gender&quot; value=&quot;male&quot; /&gt;male&#10;    &lt;input type=&quot;radio&quot; ng-model=&quot;user.gender&quot; value=&quot;female&quot; /&gt;female&#10;    &lt;br /&gt;&#10;    &lt;input type=&quot;checkbox&quot; ng-model=&quot;user.agree&quot; name=&quot;userAgree&quot; required=&quot;&quot; /&gt;&#10;&#10;    I agree:&#10;    &lt;input ng-show=&quot;user.agree&quot; type=&quot;text&quot; ng-model=&quot;user.agreeSign&quot; required=&quot;&quot; /&gt;&#10;    &lt;br /&gt;&#10;    &lt;div ng-show=&quot;form.$submitted || form.userAgree.$touched&quot;&gt;&#10;      &lt;div ng-show=&quot;!user.agree || !user.agreeSign&quot;&gt;Please agree and sign.&lt;/div&gt;&#10;    &lt;/div&gt;&#10;&#10;    &lt;input type=&quot;button&quot; ng-click=&quot;reset(form)&quot; value=&quot;Reset&quot; /&gt;&#10;    &lt;input type=&quot;submit&quot; ng-click=&quot;update(user)&quot; value=&quot;Save&quot; /&gt;&#10;  &lt;/form&gt;&#10;&lt;/div&gt;</code></pre>
     </div>
   
     <div class="runnable-example-file" 
       name="script.js"
       language="js"
       type="js">
-      <pre><code>angular.module(&#39;formExample&#39;, [])&#10;  .controller(&#39;ExampleController&#39;, [&#39;$scope&#39;, function($scope) {&#10;    $scope.master = {};&#10;&#10;    $scope.update = function(user) {&#10;      $scope.master = angular.copy(user);&#10;    };&#10;&#10;    $scope.reset = function() {&#10;      $scope.user = angular.copy($scope.master);&#10;    };&#10;&#10;    $scope.isUnchanged = function(user) {&#10;      return angular.equals(user, $scope.master);&#10;    };&#10;&#10;    $scope.reset();&#10;  }]);</code></pre>
+      <pre><code>angular.module(&#39;formExample&#39;, [])&#10;.controller(&#39;ExampleController&#39;, [&#39;$scope&#39;, function($scope) {&#10;  $scope.master = {};&#10;&#10;  $scope.update = function(user) {&#10;    $scope.master = angular.copy(user);&#10;  };&#10;&#10;  $scope.reset = function(form) {&#10;    if (form) {&#10;      form.$setPristine();&#10;      form.$setUntouched();&#10;    }&#10;    $scope.user = angular.copy($scope.master);&#10;  };&#10;&#10;  $scope.reset();&#10;}]);</code></pre>
     </div>
   
 
-    <iframe class="runnable-example-frame" src="examples/example-example31/index.html" name="example-example31"></iframe>
+    <iframe class="runnable-example-frame" src="examples/example-example33/index.html" name="example-example33"></iframe>
   </div>
 </div>
 
@@ -148,12 +150,12 @@ will update the model only when the control loses focus (blur event).</p>
 <p>
 
 <div>
-  <a ng-click="openPlunkr('examples/example-example32')" class="btn pull-right">
+  <a ng-click="openPlunkr('examples/example-example34', $event)" class="btn pull-right">
     <i class="glyphicon glyphicon-edit">&nbsp;</i>
     Edit in Plunker</a>
 
   <div class="runnable-example"
-      path="examples/example-example32"
+      path="examples/example-example34"
       module="customTriggerExample">
 
   
@@ -168,11 +170,11 @@ will update the model only when the control loses focus (blur event).</p>
       name="script.js"
       language="js"
       type="js">
-      <pre><code>angular.module(&#39;customTriggerExample&#39;, [])&#10; .controller(&#39;ExampleController&#39;, [&#39;$scope&#39;, function($scope) {&#10;   $scope.user = {};&#10; }]);</code></pre>
+      <pre><code>angular.module(&#39;customTriggerExample&#39;, [])&#10;.controller(&#39;ExampleController&#39;, [&#39;$scope&#39;, function($scope) {&#10;  $scope.user = {};&#10;}]);</code></pre>
     </div>
   
 
-    <iframe class="runnable-example-frame" src="examples/example-example32/index.html" name="example-example32"></iframe>
+    <iframe class="runnable-example-frame" src="examples/example-example34/index.html" name="example-example34"></iframe>
   </div>
 </div>
 
@@ -196,12 +198,12 @@ after last change.</p>
 <p>
 
 <div>
-  <a ng-click="openPlunkr('examples/example-example33')" class="btn pull-right">
+  <a ng-click="openPlunkr('examples/example-example35', $event)" class="btn pull-right">
     <i class="glyphicon glyphicon-edit">&nbsp;</i>
     Edit in Plunker</a>
 
   <div class="runnable-example"
-      path="examples/example-example33"
+      path="examples/example-example35"
       module="debounceExample">
 
   
@@ -216,11 +218,11 @@ after last change.</p>
       name="script.js"
       language="js"
       type="js">
-      <pre><code>angular.module(&#39;debounceExample&#39;, [])&#10;  .controller(&#39;ExampleController&#39;, [&#39;$scope&#39;, function($scope) {&#10;    $scope.user = {};&#10;  }]);</code></pre>
+      <pre><code>angular.module(&#39;debounceExample&#39;, [])&#10;.controller(&#39;ExampleController&#39;, [&#39;$scope&#39;, function($scope) {&#10;  $scope.user = {};&#10;}]);</code></pre>
     </div>
   
 
-    <iframe class="runnable-example-frame" src="examples/example-example33/index.html" name="example-example33"></iframe>
+    <iframe class="runnable-example-frame" src="examples/example-example35/index.html" name="example-example35"></iframe>
   </div>
 </div>
 
@@ -229,7 +231,7 @@ after last change.</p>
 <h1 id="custom-validation">Custom Validation</h1>
 <p>Angular provides basic implementation for most common HTML5 <a href="api/ng/directive/input">input</a>
 types: (<a href="api/ng/input/input[text]">text</a>, <a href="api/ng/input/input[number]">number</a>, <a href="api/ng/input/input[url]">url</a>,
-<a href="api/ng/input/input[email]">email</a>, <a href="api/ng/input/input[radio]">radio</a>, <a href="api/ng/input/input[checkbox]">checkbox</a>),
+<a href="api/ng/input/input[email]">email</a>, <a href="api/ng/input/input[date]">date</a>, <a href="api/ng/input/input[radio]">radio</a>, <a href="api/ng/input/input[checkbox]">checkbox</a>),
 as well as some directives for validation (<code>required</code>, <code>pattern</code>, <code>minlength</code>, <code>maxlength</code>,
 <code>min</code>, <code>max</code>).</p>
 <p>With a custom directive, you can add your own validation functions to the <code>$validators</code> object on
@@ -261,12 +263,12 @@ We mock the server request with a <code>$q</code> deferred.</p>
 <p>
 
 <div>
-  <a ng-click="openPlunkr('examples/example-example34')" class="btn pull-right">
+  <a ng-click="openPlunkr('examples/example-example36', $event)" class="btn pull-right">
     <i class="glyphicon glyphicon-edit">&nbsp;</i>
     Edit in Plunker</a>
 
   <div class="runnable-example"
-      path="examples/example-example34"
+      path="examples/example-example36"
       module="form-example1">
 
   
@@ -274,7 +276,7 @@ We mock the server request with a <code>$q</code> deferred.</p>
       name="index.html"
       language="html"
       type="html">
-      <pre><code>&lt;form name=&quot;form&quot; class=&quot;css-form&quot; novalidate&gt;&#10;  &lt;div&gt;&#10;    Size (integer 0 - 10):&#10;    &lt;input type=&quot;number&quot; ng-model=&quot;size&quot; name=&quot;size&quot;&#10;           min=&quot;0&quot; max=&quot;10&quot; integer /&gt;{{size}}&lt;br /&gt;&#10;    &lt;span ng-show=&quot;form.size.$error.integer&quot;&gt;The value is not a valid integer!&lt;/span&gt;&#10;    &lt;span ng-show=&quot;form.size.$error.min || form.size.$error.max&quot;&gt;&#10;      The value must be in range 0 to 10!&lt;/span&gt;&#10;  &lt;/div&gt;&#10;&#10;  &lt;div&gt;&#10;    Username:&#10;    &lt;input type=&quot;text&quot; ng-model=&quot;name&quot; name=&quot;name&quot; username /&gt;{{name}}&lt;br /&gt;&#10;    &lt;span ng-show=&quot;form.name.$pending.username&quot;&gt;Checking if this name is available ...&lt;/span&gt;&#10;    &lt;span ng-show=&quot;form.name.$error.username&quot;&gt;This username is already taken!&lt;/span&gt;&#10;  &lt;/div&gt;&#10;&#10;&lt;/form&gt;</code></pre>
+      <pre><code>&lt;form name=&quot;form&quot; class=&quot;css-form&quot; novalidate&gt;&#10;  &lt;div&gt;&#10;    Size (integer 0 - 10):&#10;    &lt;input type=&quot;number&quot; ng-model=&quot;size&quot; name=&quot;size&quot;&#10;           min=&quot;0&quot; max=&quot;10&quot; integer /&gt;{{size}}&lt;br /&gt;&#10;    &lt;span ng-show=&quot;form.size.$error.integer&quot;&gt;The value is not a valid integer!&lt;/span&gt;&#10;    &lt;span ng-show=&quot;form.size.$error.min || form.size.$error.max&quot;&gt;&#10;      The value must be in range 0 to 10!&lt;/span&gt;&#10;  &lt;/div&gt;&#10;&#10;  &lt;div&gt;&#10;    Username:&#10;    &lt;input type=&quot;text&quot; ng-model=&quot;name&quot; name=&quot;name&quot; username /&gt;{{name}}&lt;br /&gt;&#10;    &lt;span ng-show=&quot;form.name.$pending.username&quot;&gt;Checking if this name is available...&lt;/span&gt;&#10;    &lt;span ng-show=&quot;form.name.$error.username&quot;&gt;This username is already taken!&lt;/span&gt;&#10;  &lt;/div&gt;&#10;&#10;&lt;/form&gt;</code></pre>
     </div>
   
     <div class="runnable-example-file" 
@@ -285,7 +287,7 @@ We mock the server request with a <code>$q</code> deferred.</p>
     </div>
   
 
-    <iframe class="runnable-example-frame" src="examples/example-example34/index.html" name="example-example34"></iframe>
+    <iframe class="runnable-example-frame" src="examples/example-example36/index.html" name="example-example36"></iframe>
   </div>
 </div>
 
@@ -300,12 +302,12 @@ Note that you can alternatively use <code>ng-pattern</code> to further restrict 
 <p>
 
 <div>
-  <a ng-click="openPlunkr('examples/example-example35')" class="btn pull-right">
+  <a ng-click="openPlunkr('examples/example-example37', $event)" class="btn pull-right">
     <i class="glyphicon glyphicon-edit">&nbsp;</i>
     Edit in Plunker</a>
 
   <div class="runnable-example"
-      path="examples/example-example35"
+      path="examples/example-example37"
       module="form-example-modify-validators">
 
   
@@ -324,7 +326,7 @@ Note that you can alternatively use <code>ng-pattern</code> to further restrict 
     </div>
   
 
-    <iframe class="runnable-example-frame" src="examples/example-example35/index.html" name="example-example35"></iframe>
+    <iframe class="runnable-example-frame" src="examples/example-example37/index.html" name="example-example37"></iframe>
   </div>
 </div>
 
@@ -347,12 +349,12 @@ needs to be updated. This is usually done inside a DOM Event listener.</li>
 <p>
 
 <div>
-  <a ng-click="openPlunkr('examples/example-example36')" class="btn pull-right">
+  <a ng-click="openPlunkr('examples/example-example38', $event)" class="btn pull-right">
     <i class="glyphicon glyphicon-edit">&nbsp;</i>
     Edit in Plunker</a>
 
   <div class="runnable-example"
-      path="examples/example-example36"
+      path="examples/example-example38"
       module="form-example2">
 
   
@@ -371,7 +373,7 @@ needs to be updated. This is usually done inside a DOM Event listener.</li>
     </div>
   
 
-    <iframe class="runnable-example-frame" src="examples/example-example36/index.html" name="example-example36"></iframe>
+    <iframe class="runnable-example-frame" src="examples/example-example38/index.html" name="example-example38"></iframe>
   </div>
 </div>
 

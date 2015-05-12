@@ -938,6 +938,11 @@ angular.module('navData', [])
             "href": "api/ngMock/service"
           },
           {
+            "name": "$controller",
+            "href": "api/ngMock/service/$controller",
+            "type": "service"
+          },
+          {
             "name": "$exceptionHandler",
             "href": "api/ngMock/service/$exceptionHandler",
             "type": "service"
@@ -1226,8 +1231,23 @@ angular.module('navData', [])
             "type": "section"
           },
           {
+            "name": "ctrlfmt",
+            "href": "error/$controller/ctrlfmt",
+            "type": "error"
+          },
+          {
             "name": "noscp",
             "href": "error/$controller/noscp",
+            "type": "error"
+          },
+          {
+            "name": "$http",
+            "href": "error/$http",
+            "type": "section"
+          },
+          {
+            "name": "badreq",
+            "href": "error/$http/badreq",
             "type": "error"
           },
           {
@@ -1294,11 +1314,6 @@ angular.module('navData', [])
             "name": "$location",
             "href": "error/$location",
             "type": "section"
-          },
-          {
-            "name": "ihshprfx",
-            "href": "error/$location/ihshprfx",
-            "type": "error"
           },
           {
             "name": "ipthprfx",
@@ -1526,6 +1541,11 @@ angular.module('navData', [])
             "type": "error"
           },
           {
+            "name": "test",
+            "href": "error/ng/test",
+            "type": "error"
+          },
+          {
             "name": "ngModel",
             "href": "error/ngModel",
             "type": "section"
@@ -1726,6 +1746,11 @@ angular.module('navData', [])
           {
             "name": "i18n and l10n",
             "href": "guide/i18n",
+            "type": "page"
+          },
+          {
+            "name": "Security",
+            "href": "guide/security",
             "type": "page"
           },
           {
